@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="S9usvr" name="AudioVisualizer" projectType="guiapp" version="1.0.0"
+              bundleIdentifier="com.JeffreyRobbins.AudioVisualizer" includeBinaryInAppConfig="1"
+              jucerVersion="3.1.0" companyName="Jeffrey Robbins" companyWebsite="TechniPoet.me">
+  <MAINGROUP id="e9j8pK" name="AudioVisualizer">
+    <GROUP id="{5F747B32-F6AC-ED5B-F256-123386286DC6}" name="Source">
+      <FILE id="VA0vVl" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+      <FILE id="lW2Ghz" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="yMedQQ" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <VS2010 targetFolder="Builds/VisualStudio2012">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="AudioVisualizer"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="2" targetName="AudioVisualizer"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../JUICE/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2010>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_devices" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_formats" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_cryptography" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_opengl" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_video" showAllCode="1" useLocalCopy="1"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>
