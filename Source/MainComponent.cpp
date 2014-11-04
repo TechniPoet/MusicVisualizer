@@ -7,8 +7,10 @@
 */
 
 #include "MainComponent.h"
-
+#include <string>
 OwnedArray<TextButton> windowButtons;
+TextEditor* fileBox;
+String filePath;
 //==============================================================================
 MainContentComponent::MainContentComponent()
 {
@@ -16,8 +18,12 @@ MainContentComponent::MainContentComponent()
 	TextButton* newButton = new TextButton();
 	windowButtons.add(newButton);
 	addAndMakeVisible (newButton);
-	newButton->setButtonText ("test");
-	newButton->setBounds (10, 10, 50, 20);	newButton->addListener (this);
+	newButton->setButtonText ("Browse Files");
+	newButton->setBounds (10, 10, 100, 20);	newButton->addListener (this);	newButton = new TextButton();
+	windowButtons.add(newButton);
+	addAndMakeVisible (newButton);
+	newButton->setButtonText ("Start");
+	newButton->setBounds (10, 120, 50, 20);	newButton->addListener (this);	fileBox = new TextEditor();	addAndMakeVisible(fileBox);	fileBox->setBounds (10, 80, 400, 20);	fileBox->setReadOnly(true);
 }
 
 MainContentComponent::~MainContentComponent()
@@ -30,6 +36,9 @@ void MainContentComponent::paint (Graphics& g)
 
     g.setFont (Font (16.0f));
     g.setColour (Colours::black);
+	fileBox-> setText(filePath);
+	//fileBox->setBoundsToFit(10, 80, 1000, 20, Justification::left, false);
+	
 }
 
 void MainContentComponent::resized()
@@ -41,19 +50,25 @@ void MainContentComponent::resized()
 
 void MainContentComponent :: buttonClicked (Button* button) 
 {
-        FileChooser fc ("Choose a file to open...",
-                                File::getCurrentWorkingDirectory(),
-                                "*",
-                                true);
-		if (fc.browseForFileToOpen())
-                {
-                    String chosen;
-                    for (int i = 0; i < fc.getResults().size(); ++i)
-                        chosen << fc.getResults().getReference(i).getFullPathName() << "\n";
+	if(button->getButtonText() == "Start") {
+		AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
+                                            "Heya there",
+                                            "You hit start! Good for you!");
+	}
+	else {
+		FileChooser fc ("Choose a file to open...",
+                            File::getCurrentWorkingDirectory(),
+                            "*",
+                            false);
 
-                    AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
-                                                      "File Chooser...",
-                                                      "You picked: " + chosen);
-                }
+		if (fc.browseForFileToOpen())
+		{
+			filePath << fc.getResult().getFullPathName();
+			AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
+												"File Chooser...",
+												"You picked: " + filePath);
+		}
+	}
+    
 }
 
