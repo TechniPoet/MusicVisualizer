@@ -15,16 +15,15 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <VS2012 targetFolder="Builds/VisualStudio2012" extraLinkerFlags="${CURL_LIB}"
-            extraDefs="" externalLibraries="C:\Users\TechniPoet\CS\C++\AudioVisualizer\JuceLibraryCode\modules\dRowAudio\dRowAudio\network\curl\lib\libcurldebug.lib">
+    <VS2012 targetFolder="Builds/VisualStudio2012" extraLinkerFlags="" extraDefs=""
+            externalLibraries="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="AudioVisualizer" defines="CURL_LIB=libcurldebug.lib"
-                       headerPath="" libraryPath="C:\Users\TechniPoet\CS\C++\AudioVisualizer\JuceLibraryCode\modules\dRowAudio\dRowAudio\network\curl\include\curl\curl.h"/>
+                       isDebug="1" optimisation="1" targetName="AudioVisualizer" defines=""
+                       headerPath="" libraryPath=""/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="AudioVisualizer" defines="CURL_LIB=libcurlrelease.lib"
-                       libraryPath="..\JuceLibraryCode\modules\dRowAudio\dRowAudio\network\curl\lib"
-                       headerPath="..\JuceLibraryCode\modules\dRowAudio\dRowAudio\network\curl\include\curl"/>
+                       isDebug="0" optimisation="2" targetName="AudioVisualizer" defines=""
+                       libraryPath="" headerPath=""/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_video" path="../JUICE/JUCE/modules"/>
@@ -41,7 +40,7 @@
         <MODULEPATH id="juce_audio_formats" path="../JUICE/JUCE/modules"/>
         <MODULEPATH id="juce_audio_devices" path="../JUICE/JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../JUICE/JUCE/modules"/>
-        <MODULEPATH id="dRowAudio" path="../introJucer/JUCE/modules"/>
+        <MODULEPATH id="dRowAudio" path="../JUICE/JUCE/modules"/>
       </MODULEPATHS>
     </VS2012>
     <XCODE_MAC targetFolder="Builds/MacOSX" extraLinkerFlags="">

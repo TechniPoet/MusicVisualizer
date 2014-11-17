@@ -163,12 +163,6 @@ bool File::setFileReadOnlyInternal (const bool shouldBeReadOnly) const
             || SetFileAttributes (fullPath.toWideCharPointer(), newAtts) != FALSE;
 }
 
-bool File::setFileExecutableInternal (bool /*shouldBeExecutable*/) const
-{
-    // XXX is this possible?
-    return false;
-}
-
 bool File::isHidden() const
 {
     return (WindowsFileHelpers::getAtts (fullPath) & FILE_ATTRIBUTE_HIDDEN) != 0;

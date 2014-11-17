@@ -102,7 +102,7 @@ public:
 
 private:
    #if JUCE_CATCH_DEPRECATED_CODE_MISUSE
-    // Note that this method has been removed - instead, see LookAndFeel::getTextButtonFont()
+    // Note that this method has been removed - instead, see LookAndFeel::getTextButtonWidthToFitText()
     virtual int getFont() { return 0; }
    #endif
 

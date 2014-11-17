@@ -12,18 +12,24 @@
 #include "VisualMaker.h"
 
 //==============================================================================
-VisualMaker::VisualMaker(File file) : deviceManager(*new AudioDeviceManager()),
-                                      thread("visualizer") 
+VisualMaker::VisualMaker(File file) 
+	: deviceManager(*new AudioDeviceManager()),
+	  meterThread("Meter Thread"),
+	  thread("temp Thread")
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
     setSize (500, 400);
     transportSource.setSource (nullptr);
     formatManager.registerBasicFormats();
-    thread.startThread (3);
+	addAndMakeVisible (&meterL);
+    addAndMakeVisible (&meterR);
+	meterThread.addTimeSliceClient (&meterL);
+    meterThread.addTimeSliceClient (&meterR);
+	
+	meterThread.startThread (1);
+	thread.startThread(3);
     deviceManager.addAudioCallback (&audioSourcePlayer);
     audioSourcePlayer.setSource (&transportSource);
-    deviceManager.initialise (2, 2, 0, true, String::empty, 0);
+    deviceManager.initialise (1, 2, 0, true, String::empty, 0);
     
     AudioFormatReader* reader = formatManager.createReaderFor(file);
     currentAudioFileSource = new AudioFormatReaderSource (reader, true);
@@ -43,16 +49,11 @@ VisualMaker::VisualMaker(File file) : deviceManager(*new AudioDeviceManager()),
 
 VisualMaker::~VisualMaker()
 {
+
 }
 
 void VisualMaker::paint (Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
 
     g.fillAll (Colours::white);   // clear the background
 
@@ -62,7 +63,7 @@ void VisualMaker::paint (Graphics& g)
     g.setColour (Colours::lightblue);
     g.setFont (14.0f);
     g.drawText ((String)pitchFinder.getPitch(), getLocalBounds(),
-                Justification::centred, true);   // draw some placeholder text
+                Justification::centred, true);  
 }
 
 void VisualMaker::resized()

@@ -91,11 +91,6 @@ public:
     */
     void startTimer (int intervalInMilliseconds) noexcept;
 
-    /** Starts the timer with an interval specified in Hertz.
-        This is effectively the same as calling startTimer (1000 / timerFrequencyHz).
-    */
-    void startTimerHz (int timerFrequencyHz) noexcept;
-
     /** Stops the timer.
 
         No more callbacks will be made after this method returns.
@@ -107,10 +102,14 @@ public:
     void stopTimer() noexcept;
 
     //==============================================================================
-    /** Returns true if the timer is currently running. */
+    /** Checks if the timer has been started.
+
+        @returns true if the timer is running.
+    */
     bool isTimerRunning() const noexcept                    { return periodMs > 0; }
 
     /** Returns the timer's interval.
+
         @returns the timer's interval in milliseconds if it's running, or 0 if it's not.
     */
     int getTimerInterval() const noexcept                   { return periodMs; }

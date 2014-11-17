@@ -16,7 +16,7 @@
 //==============================================================================
 /*
 */
-class VisualMaker    : public Component, public ChangeListener, public ChangeBroadcaster, private Timer
+class VisualMaker    : public Component,  private Timer//, public AudioIODeviceCallback
 {
 public:
     VisualMaker(File);
@@ -24,16 +24,20 @@ public:
 
     void paint (Graphics&);
     void resized();
-    void changeListenerCallback (ChangeBroadcaster*) override
-    {
-        // this method is called by the thumbnail when it has changed, so we should repaint it..
-        repaint();
-    }
+	/*
+	void audioDeviceIOCallback (const float** inputChannelData,
+                                int numInputChannels,
+                                float** outputChannelData,
+                                int numOutputChannels,
+                                int numSamples);
+								*/
 
 private:
     AudioDeviceManager& deviceManager;
     AudioFormatManager formatManager;
-    TimeSliceThread thread;
+	TimeSliceThread thread;
+    TimeSliceThread meterThread;
+	drow::SegmentedMeter meterL, meterR;
     ScopedPointer<AudioFormatReaderSource> currentAudioFileSource;
     
     

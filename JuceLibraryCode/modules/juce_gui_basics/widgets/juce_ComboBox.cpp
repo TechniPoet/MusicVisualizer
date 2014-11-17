@@ -473,7 +473,7 @@ bool ComboBox::keyPressed (const KeyPress& key)
 
     if (key == KeyPress::returnKey)
     {
-        showPopupIfNotActive();
+        showPopup();
         return true;
     }
 
@@ -512,49 +512,40 @@ void ComboBox::popupMenuFinishedCallback (int result, ComboBox* box)
     }
 }
 
-void ComboBox::showPopupIfNotActive()
+void ComboBox::showPopup()
 {
     if (! menuActive)
     {
+        const int selectedId = getSelectedId();
+
+        PopupMenu menu;
+        menu.setLookAndFeel (&getLookAndFeel());
+
+        for (int i = 0; i < items.size(); ++i)
+        {
+            const ItemInfo* const item = items.getUnchecked(i);
+
+            if (item->isSeparator())
+                menu.addSeparator();
+            else if (item->isHeading)
+                menu.addSectionHeader (item->name);
+            else
+                menu.addItem (item->itemId, item->name,
+                              item->isEnabled, item->itemId == selectedId);
+        }
+
+        if (items.size() == 0)
+            menu.addItem (1, noChoicesMessage, false);
+
         menuActive = true;
-        showPopup();
+
+        menu.showMenuAsync (PopupMenu::Options().withTargetComponent (this)
+                                                .withItemThatMustBeVisible (selectedId)
+                                                .withMinimumWidth (getWidth())
+                                                .withMaximumNumColumns (1)
+                                                .withStandardItemHeight (jlimit (12, 24, getHeight())),
+                            ModalCallbackFunction::forComponent (popupMenuFinishedCallback, this));
     }
-}
-
-void ComboBox::showPopup()
-{
-    PopupMenu menu;
-    menu.setLookAndFeel (&getLookAndFeel());
-    addItemsToMenu (menu);
-
-    menu.showMenuAsync (PopupMenu::Options().withTargetComponent (this)
-                                            .withItemThatMustBeVisible (getSelectedId())
-                                            .withMinimumWidth (getWidth())
-                                            .withMaximumNumColumns (1)
-                                            .withStandardItemHeight (label->getHeight()),
-                        ModalCallbackFunction::forComponent (popupMenuFinishedCallback, this));
-}
-
-void ComboBox::addItemsToMenu (PopupMenu& menu) const
-{
-    const int selectedId = getSelectedId();
-
-    for (int i = 0; i < items.size(); ++i)
-    {
-        const ItemInfo* const item = items.getUnchecked(i);
-        jassert (item != nullptr);
-
-        if (item->isSeparator())
-            menu.addSeparator();
-        else if (item->isHeading)
-            menu.addSectionHeader (item->name);
-        else
-            menu.addItem (item->itemId, item->name,
-                          item->isEnabled, item->itemId == selectedId);
-    }
-
-    if (items.size() == 0)
-        menu.addItem (1, noChoicesMessage, false);
 }
 
 //==============================================================================
@@ -565,7 +556,7 @@ void ComboBox::mouseDown (const MouseEvent& e)
     isButtonDown = isEnabled() && ! e.mods.isPopupMenu();
 
     if (isButtonDown && (e.eventComponent == this || ! label->isEditable()))
-        showPopupIfNotActive();
+        showPopup();
 }
 
 void ComboBox::mouseDrag (const MouseEvent& e)
@@ -573,7 +564,7 @@ void ComboBox::mouseDrag (const MouseEvent& e)
     beginDragAutoRepeat (50);
 
     if (isButtonDown && ! e.mouseWasClicked())
-        showPopupIfNotActive();
+        showPopup();
 }
 
 void ComboBox::mouseUp (const MouseEvent& e2)
@@ -588,7 +579,7 @@ void ComboBox::mouseUp (const MouseEvent& e2)
         if (reallyContains (e.getPosition(), true)
              && (e2.eventComponent == this || ! label->isEditable()))
         {
-            showPopupIfNotActive();
+            showPopup();
         }
     }
 }

@@ -219,11 +219,6 @@ bool File::setReadOnly (const bool shouldBeReadOnly,
     return setFileReadOnlyInternal (shouldBeReadOnly) && worked;
 }
 
-bool File::setExecutePermission (bool shouldBeExecutable) const
-{
-    return setFileExecutableInternal (shouldBeExecutable);
-}
-
 bool File::deleteRecursively() const
 {
     bool worked = true;

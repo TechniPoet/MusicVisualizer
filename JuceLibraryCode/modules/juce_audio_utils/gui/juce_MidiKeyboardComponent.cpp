@@ -26,8 +26,11 @@ class MidiKeyboardUpDownButton  : public Button
 {
 public:
     MidiKeyboardUpDownButton (MidiKeyboardComponent& comp, const int d)
-        : Button (String::empty), owner (comp), delta (d)
+        : Button (String::empty),
+          owner (comp),
+          delta (d)
     {
+        setOpaque (true);
     }
 
     void clicked() override
@@ -57,7 +60,8 @@ private:
 };
 
 //==============================================================================
-MidiKeyboardComponent::MidiKeyboardComponent (MidiKeyboardState& s, Orientation o)
+MidiKeyboardComponent::MidiKeyboardComponent (MidiKeyboardState& s,
+                                              const Orientation o)
     : state (s),
       xOffset (0),
       blackNoteLength (1),
@@ -88,12 +92,12 @@ MidiKeyboardComponent::MidiKeyboardComponent (MidiKeyboardState& s, Orientation 
     mouseOverNotes.insertMultiple (0, -1, 32);
     mouseDownNotes.insertMultiple (0, -1, 32);
 
-    colourChanged();
+    setOpaque (true);
     setWantsKeyboardFocus (true);
 
     state.addListener (this);
 
-    startTimerHz (20);
+    startTimer (1000 / 20);
 }
 
 MidiKeyboardComponent::~MidiKeyboardComponent()
@@ -165,7 +169,6 @@ void MidiKeyboardComponent::setScrollButtonsVisible (const bool newCanScroll)
 
 void MidiKeyboardComponent::colourChanged()
 {
-    setOpaque (findColour (whiteNoteColourId).isOpaque());
     repaint();
 }
 
@@ -339,7 +342,7 @@ void MidiKeyboardComponent::repaintNote (const int noteNum)
 
 void MidiKeyboardComponent::paint (Graphics& g)
 {
-    g.fillAll (findColour (whiteNoteColourId));
+    g.fillAll (Colours::white.overlaidWith (findColour (whiteNoteColourId)));
 
     const Colour lineColour (findColour (keySeparatorLineColourId));
     const Colour textColour (findColour (textLabelColourId));

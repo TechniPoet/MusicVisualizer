@@ -304,31 +304,21 @@ bool File::hasWriteAccess() const
     return false;
 }
 
-static bool setFileModeFlags (const String& fullPath, mode_t flags, bool shouldSet) noexcept
+bool File::setFileReadOnlyInternal (const bool shouldBeReadOnly) const
 {
     juce_statStruct info;
     if (! juce_stat (fullPath, info))
         return false;
 
-    info.st_mode &= 0777;
+    info.st_mode &= 0777;   // Just permissions
 
-    if (shouldSet)
-        info.st_mode |= flags;
+    if (shouldBeReadOnly)
+        info.st_mode &= ~(S_IWUSR | S_IWGRP | S_IWOTH);
     else
-        info.st_mode &= ~flags;
+        // Give everybody write permission?
+        info.st_mode |= S_IWUSR | S_IWGRP | S_IWOTH;
 
     return chmod (fullPath.toUTF8(), info.st_mode) == 0;
-}
-
-bool File::setFileReadOnlyInternal (bool shouldBeReadOnly) const
-{
-    // Hmm.. should we give global write permission or just the current user?
-    return setFileModeFlags (fullPath, S_IWUSR | S_IWGRP | S_IWOTH, ! shouldBeReadOnly);
-}
-
-bool File::setFileExecutableInternal (bool shouldBeExecutable) const
-{
-    return setFileModeFlags (fullPath, S_IXUSR | S_IXGRP | S_IXOTH, shouldBeExecutable);
 }
 
 void File::getFileTimesInternal (int64& modificationTime, int64& accessTime, int64& creationTime) const
@@ -338,12 +328,11 @@ void File::getFileTimesInternal (int64& modificationTime, int64& accessTime, int
     creationTime = 0;
 
     juce_statStruct info;
-
     if (juce_stat (fullPath, info))
     {
-        modificationTime  = (int64) info.st_mtime * 1000;
-        accessTime        = (int64) info.st_atime * 1000;
-        creationTime      = (int64) info.st_ctime * 1000;
+        modificationTime = (int64) info.st_mtime * 1000;
+        accessTime = (int64) info.st_atime * 1000;
+        creationTime = (int64) info.st_ctime * 1000;
     }
 }
 

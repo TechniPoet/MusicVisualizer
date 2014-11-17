@@ -73,71 +73,64 @@ bool DirectoryIterator::next()
 bool DirectoryIterator::next (bool* const isDirResult, bool* const isHiddenResult, int64* const fileSize,
                               Time* const modTime, Time* const creationTime, bool* const isReadOnly)
 {
-    for (;;)
+    hasBeenAdvanced = true;
+
+    if (subIterator != nullptr)
     {
-        hasBeenAdvanced = true;
+        if (subIterator->next (isDirResult, isHiddenResult, fileSize, modTime, creationTime, isReadOnly))
+            return true;
 
-        if (subIterator != nullptr)
-        {
-            if (subIterator->next (isDirResult, isHiddenResult, fileSize, modTime, creationTime, isReadOnly))
-                return true;
-
-            subIterator = nullptr;
-        }
-
-        String filename;
-        bool isDirectory, isHidden = false, shouldContinue = false;
-
-        while (fileFinder.next (filename, &isDirectory,
-                                (isHiddenResult != nullptr || (whatToLookFor & File::ignoreHiddenFiles) != 0) ? &isHidden : nullptr,
-                                fileSize, modTime, creationTime, isReadOnly))
-        {
-            ++index;
-
-            if (! filename.containsOnly ("."))
-            {
-                bool matches = false;
-
-                if (isDirectory)
-                {
-                    if (isRecursive && ((whatToLookFor & File::ignoreHiddenFiles) == 0 || ! isHidden))
-                        subIterator = new DirectoryIterator (File::createFileWithoutCheckingPath (path + filename),
-                                                             true, wildCard, whatToLookFor);
-
-                    matches = (whatToLookFor & File::findDirectories) != 0;
-                }
-                else
-                {
-                    matches = (whatToLookFor & File::findFiles) != 0;
-                }
-
-                // if we're not relying on the OS iterator to do the wildcard match, do it now..
-                if (matches && (isRecursive || wildCards.size() > 1))
-                    matches = fileMatches (wildCards, filename);
-
-                if (matches && (whatToLookFor & File::ignoreHiddenFiles) != 0)
-                    matches = ! isHidden;
-
-                if (matches)
-                {
-                    currentFile = File::createFileWithoutCheckingPath (path + filename);
-                    if (isHiddenResult != nullptr)     *isHiddenResult = isHidden;
-                    if (isDirResult != nullptr)        *isDirResult = isDirectory;
-
-                    return true;
-                }
-
-                if (subIterator != nullptr)
-                {
-                    shouldContinue = true;
-                    break;
-                }
-            }
-        }
-
-        if (! shouldContinue)
-            return false;
+        subIterator = nullptr;
     }
+
+    String filename;
+    bool isDirectory, isHidden = false;
+
+    while (fileFinder.next (filename, &isDirectory,
+                            (isHiddenResult != nullptr || (whatToLookFor & File::ignoreHiddenFiles) != 0) ? &isHidden : nullptr,
+                            fileSize, modTime, creationTime, isReadOnly))
+    {
+        ++index;
+
+        if (! filename.containsOnly ("."))
+        {
+            bool matches = false;
+
+            if (isDirectory)
+            {
+                if (isRecursive && ((whatToLookFor & File::ignoreHiddenFiles) == 0 || ! isHidden))
+                    subIterator = new DirectoryIterator (File::createFileWithoutCheckingPath (path + filename),
+                                                         true, wildCard, whatToLookFor);
+
+                matches = (whatToLookFor & File::findDirectories) != 0;
+            }
+            else
+            {
+                matches = (whatToLookFor & File::findFiles) != 0;
+            }
+
+            // if we're not relying on the OS iterator to do the wildcard match, do it now..
+            if (matches && (isRecursive || wildCards.size() > 1))
+                matches = fileMatches (wildCards, filename);
+
+            if (matches && (whatToLookFor & File::ignoreHiddenFiles) != 0)
+                matches = ! isHidden;
+
+            if (matches)
+            {
+                currentFile = File::createFileWithoutCheckingPath (path + filename);
+                if (isHiddenResult != nullptr)     *isHiddenResult = isHidden;
+                if (isDirResult != nullptr)        *isDirResult = isDirectory;
+
+                return true;
+            }
+
+            if (subIterator != nullptr)
+                return next (isDirResult, isHiddenResult, fileSize, modTime, creationTime, isReadOnly);
+        }
+    }
+
+    return false;
 }
 
 const File& DirectoryIterator::getFile() const
