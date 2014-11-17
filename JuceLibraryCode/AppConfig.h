@@ -42,7 +42,7 @@
 // dRowAudio flags:
 
 #ifndef    DROWAUDIO_USE_FFTREAL
- //#define DROWAUDIO_USE_FFTREAL
+ #define   DROWAUDIO_USE_FFTREAL 1
 #endif
 
 #ifndef    DROWAUDIO_USE_SOUNDTOUCH
@@ -50,7 +50,7 @@
 #endif
 
 #ifndef    DROWAUDIO_USE_CURL
- //#define DROWAUDIO_USE_CURL
+ #define   DROWAUDIO_USE_CURL 0
 #endif
 
 //==============================================================================

@@ -20,11 +20,21 @@ MainContentComponent::MainContentComponent()
 	windowButtons.add(newButton);
 	addAndMakeVisible (newButton);
 	newButton->setButtonText ("Browse Files");
-	newButton->setBounds (10, 10, 100, 20);	newButton->addListener (this);	newButton = new TextButton();
+	newButton->setBounds (10, 10, 100, 20);
+	newButton->addListener (this);
+
+	newButton = new TextButton();
 	windowButtons.add(newButton);
 	addAndMakeVisible (newButton);
 	newButton->setButtonText ("Start");
-	newButton->setBounds (10, 120, 50, 20);	newButton->addListener (this);	fileBox = new TextEditor();	addAndMakeVisible(fileBox);	fileBox->setBounds (10, 80, 400, 20);	fileBox->setReadOnly(true);
+	newButton->setBounds (10, 120, 50, 20);
+	newButton->addListener (this);
+
+	fileBox = new TextEditor();
+	addAndMakeVisible(fileBox);
+	fileBox->setBounds (10, 80, 400, 20);
+	fileBox->setReadOnly(true);
+
 }
 
 MainContentComponent::~MainContentComponent()
@@ -55,6 +65,7 @@ void MainContentComponent :: buttonClicked (Button* button)
 		AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
                                             "Heya there",
                                             "You hit start! Good for you!");
+        vWindow = new BasicWindow("visualizer", audioFile);
 	}
 	else {
 		FileChooser fc ("Choose a file to open...",

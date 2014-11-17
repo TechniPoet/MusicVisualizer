@@ -6,8 +6,8 @@
               defines="">
   <MAINGROUP id="e9j8pK" name="AudioVisualizer">
     <GROUP id="{5F747B32-F6AC-ED5B-F256-123386286DC6}" name="Source">
-      <FILE id="HGtkka" name="Visualizer.cpp" compile="1" resource="0" file="Source/Visualizer.cpp"/>
-      <FILE id="XFCTCQ" name="Visualizer.h" compile="0" resource="0" file="Source/Visualizer.h"/>
+      <FILE id="RBT098" name="VisualMaker.cpp" compile="1" resource="0" file="Source/VisualMaker.cpp"/>
+      <FILE id="RcvoMQ" name="VisualMaker.h" compile="0" resource="0" file="Source/VisualMaker.h"/>
       <FILE id="VA0vVl" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="lW2Ghz" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
@@ -41,9 +41,34 @@
         <MODULEPATH id="juce_audio_formats" path="../JUICE/JUCE/modules"/>
         <MODULEPATH id="juce_audio_devices" path="../JUICE/JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../JUICE/JUCE/modules"/>
-        <MODULEPATH id="dRowAudio" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="dRowAudio" path="../introJucer/JUCE/modules"/>
       </MODULEPATHS>
     </VS2012>
+    <XCODE_MAC targetFolder="Builds/MacOSX" extraLinkerFlags="">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="1" optimisation="1" targetName="AudioVisualizer" defines=""/>
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="0" optimisation="2" targetName="AudioVisualizer"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_video" path="../introJucer/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../introJucer/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../introJucer/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../introJucer/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../introJucer/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../introJucer/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../introJucer/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../introJucer/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../introJucer/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../introJucer/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../introJucer/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../introJucer/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../introJucer/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../introJucer/JUCE/modules"/>
+        <MODULEPATH id="dRowAudio" path="../introJucer/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
   </EXPORTFORMATS>
   <MODULES>
     <MODULES id="dRowAudio" showAllCode="1" useLocalCopy="1"/>
@@ -62,5 +87,5 @@
     <MODULES id="juce_opengl" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_video" showAllCode="1" useLocalCopy="1"/>
   </MODULES>
-  <JUCEOPTIONS/>
+  <JUCEOPTIONS DROWAUDIO_USE_FFTREAL="enabled" DROWAUDIO_USE_CURL="disabled"/>
 </JUCERPROJECT>

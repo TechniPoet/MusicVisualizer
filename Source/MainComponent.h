@@ -10,7 +10,7 @@
 #define MAINCOMPONENT_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "Visualizer.h"
+#include "VisualMaker.h"
 
 class BasicWindow   : public DocumentWindow
 {
@@ -18,8 +18,9 @@ public:
     BasicWindow (const String& name, File& audioFile)
         : DocumentWindow (name, Colours::lightgrey, DocumentWindow::allButtons)
     {
-		setContentOwned(new Visualizer(audioFile), true);
-		centreWithSize (getWidth(), getHeight());
+		setContentOwned(new VisualMaker(audioFile), true);
+		//centreWithSize (getWidth(), getHeight());
+        centreWithSize(400, 400);
         setVisible (true);
     }
 
