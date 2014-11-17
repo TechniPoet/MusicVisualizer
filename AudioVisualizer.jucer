@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="S9usvr" name="AudioVisualizer" projectType="guiapp" version="1.0.0"
-              bundleIdentifier="com.JeffreyRobbins.AudioVisualizer" includeBinaryInAppConfig="1"
-              jucerVersion="3.1.0" companyName="Jeffrey Robbins" companyWebsite="TechniPoet.me">
+              bundleIdentifier="com.JeffreyRobbins.AudioVisualizer" includeBinaryInAppConfig="0"
+              jucerVersion="3.1.0" companyName="Jeffrey Robbins" companyWebsite="TechniPoet.me"
+              defines="">
   <MAINGROUP id="e9j8pK" name="AudioVisualizer">
     <GROUP id="{5F747B32-F6AC-ED5B-F256-123386286DC6}" name="Source">
+      <FILE id="HGtkka" name="Visualizer.cpp" compile="1" resource="0" file="Source/Visualizer.cpp"/>
+      <FILE id="XFCTCQ" name="Visualizer.h" compile="0" resource="0" file="Source/Visualizer.h"/>
       <FILE id="VA0vVl" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="lW2Ghz" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
@@ -12,35 +15,43 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <VS2010 targetFolder="Builds/VisualStudio2012">
+    <VS2012 targetFolder="Builds/VisualStudio2012" extraLinkerFlags="${CURL_LIB}"
+            extraDefs="" externalLibraries="C:\Users\TechniPoet\CS\C++\AudioVisualizer\JuceLibraryCode\modules\dRowAudio\dRowAudio\network\curl\lib\libcurldebug.lib">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="AudioVisualizer"/>
+                       isDebug="1" optimisation="1" targetName="AudioVisualizer" defines="CURL_LIB=libcurldebug.lib"
+                       headerPath="" libraryPath="C:\Users\TechniPoet\CS\C++\AudioVisualizer\JuceLibraryCode\modules\dRowAudio\dRowAudio\network\curl\include\curl\curl.h"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="AudioVisualizer"/>
+                       isDebug="0" optimisation="2" targetName="AudioVisualizer" defines="CURL_LIB=libcurlrelease.lib"
+                       libraryPath="..\JuceLibraryCode\modules\dRowAudio\dRowAudio\network\curl\lib"
+                       headerPath="..\JuceLibraryCode\modules\dRowAudio\dRowAudio\network\curl\include\curl"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_core" path="../JUICE/JUCE/modules"/>
-        <MODULEPATH id="juce_events" path="../JUICE/JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../JUICE/JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../JUICE/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../JUICE/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../JUICE/JUCE/modules"/>
-        <MODULEPATH id="juce_cryptography" path="../JUICE/JUCE/modules"/>
         <MODULEPATH id="juce_video" path="../JUICE/JUCE/modules"/>
         <MODULEPATH id="juce_opengl" path="../JUICE/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="../JUICE/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="../JUICE/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../JUICE/JUCE/modules"/>
         <MODULEPATH id="juce_audio_processors" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../JUICE/JUCE/modules"/>
+        <MODULEPATH id="dRowAudio" path="../JUICE/JUCE/modules"/>
       </MODULEPATHS>
-    </VS2010>
+    </VS2012>
   </EXPORTFORMATS>
   <MODULES>
+    <MODULES id="dRowAudio" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_audio_devices" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_audio_formats" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_utils" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_cryptography" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>

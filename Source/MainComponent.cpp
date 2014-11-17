@@ -7,10 +7,11 @@
 */
 
 #include "MainComponent.h"
-#include <string>
+
 OwnedArray<TextButton> windowButtons;
 TextEditor* fileBox;
 String filePath;
+File audioFile;
 //==============================================================================
 MainContentComponent::MainContentComponent()
 {
@@ -63,6 +64,7 @@ void MainContentComponent :: buttonClicked (Button* button)
 
 		if (fc.browseForFileToOpen())
 		{
+			audioFile = fc.getResult();
 			filePath << fc.getResult().getFullPathName();
 			AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
 												"File Chooser...",
@@ -71,4 +73,12 @@ void MainContentComponent :: buttonClicked (Button* button)
 	}
     
 }
+
+
+
+void MainContentComponent::closeButtonPressed()
+{
+    JUCEApplication::getInstance()->systemRequestedQuit();
+}
+
 
