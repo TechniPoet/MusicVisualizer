@@ -62,9 +62,11 @@ void MainContentComponent::resized()
 void MainContentComponent :: buttonClicked (Button* button) 
 {
 	if(button->getButtonText() == "Start") {
+        /*
 		AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
                                             "Heya there",
                                             "You hit start! Good for you!");
+         */
         vWindow = new BasicWindow("visualizer", audioFile);
 	}
 	else {

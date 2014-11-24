@@ -26,14 +26,12 @@ public:
     //==============================================================================
     void initialise (const String& commandLine) override
     {
-        // This method is where you should put your application's initialisation code..
 
         mainWindow = new MainWindow (getApplicationName());
     }
 
     void shutdown() override
     {
-        // Add your application's shutdown code here..
 
         mainWindow = nullptr; // (deletes our window)
     }
@@ -48,9 +46,6 @@ public:
 
     void anotherInstanceStarted (const String& commandLine) override
     {
-        // When another instance of the app is launched while this one is running,
-        // this method is invoked, and the commandLine parameter tells you what
-        // the other instance's command-line arguments were.
     }
 
     //==============================================================================
@@ -74,9 +69,6 @@ public:
 
         void closeButtonPressed() override
         {
-            // This is called when the user tries to close this window. Here, we'll just
-            // ask the app to quit when this happens, but you can change this to do
-            // whatever you need.
             JUCEApplication::getInstance()->systemRequestedQuit();
         }
 
