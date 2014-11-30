@@ -65,14 +65,12 @@ public:
     void paint (Graphics&);
     void resized();
 	
-	void audioDeviceIOCallback (const float** inputChannelData,
-                                int numInputChannels,
-                                float** outputChannelData,
-                                int numOutputChannels,
-                                int numSamples);
+	void audioDeviceIOCallback (const float**,int,
+                                float**,int,int);
 
 	void audioDeviceAboutToStart (AudioIODevice* device);
     void audioDeviceStopped();
+    void drawCircle(Graphics&);
 	//void processBlock(const float *channelData, int numSamples);
 								
 
@@ -91,11 +89,15 @@ private:
     
     AudioSourcePlayer audioSourcePlayer;
     //AudioTransportSource transportSource;
-	//pitch 
+	//pitch
+    double lastPitch;
 	double pitch;
 	double sampleRate;
     drow::PitchDetector pitchFinder;
 	CriticalSection detectorLock;
+    
+    
+    double circSize = double(50);
     void timerCallback() override
     {
         repaint();

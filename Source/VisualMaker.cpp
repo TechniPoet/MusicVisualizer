@@ -10,12 +10,15 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "VisualMaker.h"
+#include <math.h>
+#include <cstdlib>
 
 //==============================================================================
 VisualMaker::VisualMaker(File file) 
 	: deviceManager(*new AudioDeviceManager()),
-	  bufferTransformAudioSource(&audioFilePlayer),
-	  meterThread("Meter Thread")//,thread("temp Thread")
+      meterThread("Meter Thread"),
+	  bufferTransformAudioSource(&audioFilePlayer)
+	 //,thread("temp Thread")
 {
 
 	//audio
@@ -54,7 +57,7 @@ VisualMaker::VisualMaker(File file)
 	
     
     
-    startTimer (100);
+    startTimer (20);
 
 }
 
@@ -74,12 +77,16 @@ void VisualMaker::paint (Graphics& g)
     g.setColour (Colours::lightblue);
     g.setFont (14.0f);
 	if(audioFilePlayer.isPlaying()) {
-		g.drawEllipse(getWidth()/4, getHeight()/4, pitch /20, pitch /20, 5);
+		drawCircle(g);
+        Colour col = Colour(uint8(pitch/(rand()%100 + 1)), uint8(pitch/(rand()%100 + 1)), uint8(pitch/(rand()%100 + 1)));
+        g.setColour(col);
+        g.fillRect(getWidth()/2, getHeight()/20, 20, pitch/10);
+        g.fillRect(getWidth()/3, getHeight()/20, 20, pitch/8);
+        g.fillRect(getWidth()/4, getHeight()/20, 20, pitch/7);
+        g.fillRect(getWidth()/5, getHeight()/20, 20, pitch/5);
 		g.drawText ( drow::Pitch::fromFrequency (pitch).getMidiNoteName(), getLocalBounds(),
                 Justification::centred, true);  
 	}
-    
-	
 }
 
 void VisualMaker::resized()
@@ -120,7 +127,16 @@ void VisualMaker::audioDeviceStopped()
 	audioSourcePlayer.audioDeviceStopped();
 }
 
-
+void VisualMaker::drawCircle(Graphics& g)
+{
+    //circSize += pitch < lastPitch ? 2 : -2;
+    //circSize = circSize * ((pitch-circSize)/140);
+    circSize = pow(1.1, pitch/10);
+    std::cout << pitch << std::endl;
+    circSize = circSize < 10 ? 10 : circSize;
+    g.drawEllipse(getWidth()/4, getHeight()/4, circSize, circSize, 5);
+    lastPitch = pitch;
+}
 
 //Buffer 
 
