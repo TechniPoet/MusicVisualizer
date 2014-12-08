@@ -37,19 +37,31 @@ MainContentComponent::MainContentComponent()
 
 }
 
+//Destructor
 MainContentComponent::~MainContentComponent()
 {
+    for (int i = windowButtons.size(); --i >= 0;) {
+        windowButtons.getUnchecked(i) -> removeListener(this);
+    }
+    windowButtons.clear(true);
+    fileBox -> clear();
+    delete fileBox;
+    //vWindow->
+    if (vWindow != nullptr && vWindow != 0) {
+        //if (NULL != *vWindow) {
+            delete vWindow;
+        //}
+    }
 }
 
+//This is where everything is drawn
 void MainContentComponent::paint (Graphics& g)
 {
     g.fillAll (Colours::black);
-
     g.setFont (Font (16.0f));
     g.setColour (Colours::black);
 	fileBox-> setText(filePath);
-	//fileBox->setBoundsToFit(10, 80, 1000, 20, Justification::left, false);
-	
+	//fileBox->setBoundsToFit(10, 80, 1000, 20, Justification::left, false);	
 }
 
 void MainContentComponent::resized()
@@ -59,25 +71,28 @@ void MainContentComponent::resized()
     // update their positions.
 }
 
+//Listener
 void MainContentComponent :: buttonClicked (Button* button) 
 {
 	if(button->getButtonText() == "Start") {
-        /*
-		AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
-                                            "Heya there",
-                                            "You hit start! Good for you!");
-         */
-        vWindow = new BasicWindow("visualizer", audioFile);
+        if (validFile()) {
+            vWindow = new BasicWindow("visualizer", audioFile);
+        }
+        else {
+            AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
+                                              "File Error",
+            "Your file hasn't been chosen or isn't a usable format");
+        }
 	}
 	else {
 		FileChooser fc ("Choose a file to open...",
                             File::getCurrentWorkingDirectory(),
                             "*",
                             false);
-
 		if (fc.browseForFileToOpen())
 		{
 			audioFile = fc.getResult();
+            filePath.clear();
 			filePath << fc.getResult().getFullPathName();
 			AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
 												"File Chooser...",
@@ -87,7 +102,18 @@ void MainContentComponent :: buttonClicked (Button* button)
     
 }
 
-
+//Checks if audio file is valid
+bool MainContentComponent::validFile()
+{
+    if (audioFile.existsAsFile()) {
+        return audioFile.getFileName().toLowerCase().contains("mp3") ||
+        audioFile.getFileName().toLowerCase().contains(".wav") ||
+        audioFile.getFileName().toLowerCase().contains(".aiff") ||
+        audioFile.getFileName().toLowerCase().contains(".flac") ||
+        audioFile.getFileName().toLowerCase().contains(".ogg-vorbis");
+    }
+    return false;
+}
 
 void MainContentComponent::closeButtonPressed()
 {

@@ -13,16 +13,28 @@
 #include <math.h>
 #include <cstdlib>
 
+
 //==============================================================================
 VisualMaker::VisualMaker(File file) 
 	: deviceManager(*new AudioDeviceManager()),
       meterThread("Meter Thread"),
 	  bufferTransformAudioSource(&audioFilePlayer)
-	 //,thread("temp Thread")
 {
-
-	//audio
+	//set up window
     setSize (500, 400);
+    width = getWidth();
+    height = getHeight();
+    
+    //Set up shapes class and circles
+    shape = *new Shapes(height, width, pitch);
+    //shape.makeSpinningSquare(0, 0);
+    
+    
+    shape.makeSpinningCircle(0, 70);
+    shape.makeSpinningCircle(90, 70);
+    shape.makeSpinningCircle(180, 70);
+    shape.makeSpinningCircle(270, 70);
+    
     formatManager.registerBasicFormats();
 	addAndMakeVisible (&meterL);
     addAndMakeVisible (&meterR);
@@ -57,35 +69,54 @@ VisualMaker::VisualMaker(File file)
 	
     
     
-    startTimer (20);
+    startTimer (50);
 
 }
 
 VisualMaker::~VisualMaker()
 {
-
+    deviceManager.removeAudioCallback(this);
+    delete &deviceManager;
+    meterThread.stopThread(500);
+    audioSourcePlayer.setSource(nullptr);
 }
 
 void VisualMaker::paint (Graphics& g)
 {
-
     g.fillAll (Colours::white);   // clear the background
 
     g.setColour (Colours::grey);
     g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
     g.setColour (Colours::lightblue);
-    g.setFont (14.0f);
+    g.setFont (50.0f);
 	if(audioFilePlayer.isPlaying()) {
-		drawCircle(g);
-        Colour col = Colour(uint8(pitch/(rand()%100 + 1)), uint8(pitch/(rand()%100 + 1)), uint8(pitch/(rand()%100 + 1)));
+        int color = rand() % 3;
+        Colour col;
+        if (color == 0) {
+            red += rand() % 2 == 0 ? rand() % 30 : -(rand() % 30);
+        }
+        else if (color == 1) {
+            blue += rand() % 2 == 0 ? rand() % 30 : -(rand() % 30);
+        }
+        else {
+            green += rand() % 2 == 0 ? rand() % 30 : -(rand() % 30);
+        }
+        col = Colour(uint8(red), uint8(blue), uint8(green));
         g.setColour(col);
+		shape.drawShapes(g);
+        g.fillEllipse(getWidth()/2 - pitch/100, getHeight()/2 - pitch/100, pitch/50, pitch/50);
+        g.drawEllipse(0, 0, 10, 10, 4);
+        g.drawEllipse(getWidth()-5,getHeight()-5, 10, 10, 4);
+        //std::cout <<pitch << std::endl;
+        /*
+        
         g.fillRect(getWidth()/2, getHeight()/20, 20, pitch/10);
         g.fillRect(getWidth()/3, getHeight()/20, 20, pitch/8);
         g.fillRect(getWidth()/4, getHeight()/20, 20, pitch/7);
         g.fillRect(getWidth()/5, getHeight()/20, 20, pitch/5);
-		g.drawText ( drow::Pitch::fromFrequency (pitch).getMidiNoteName(), getLocalBounds(),
-                Justification::centred, true);  
+         */
+		//g.drawText ( drow::Pitch::fromFrequency (pitch).getMidiNoteName(), getLocalBounds(),
+          //      Justification::centred, true);
 	}
 }
 
@@ -118,6 +149,7 @@ void VisualMaker::audioDeviceIOCallback(const float** inputChannelData,
 void VisualMaker::audioDeviceAboutToStart (AudioIODevice* device)
 {
     audioSourcePlayer.audioDeviceAboutToStart (device);
+    
 	sampleRate = device->getCurrentSampleRate();
 	pitchFinder.setSampleRate (sampleRate);
 }
@@ -127,16 +159,7 @@ void VisualMaker::audioDeviceStopped()
 	audioSourcePlayer.audioDeviceStopped();
 }
 
-void VisualMaker::drawCircle(Graphics& g)
-{
-    //circSize += pitch < lastPitch ? 2 : -2;
-    //circSize = circSize * ((pitch-circSize)/140);
-    circSize = pow(1.1, pitch/10);
-    std::cout << pitch << std::endl;
-    circSize = circSize < 10 ? 10 : circSize;
-    g.drawEllipse(getWidth()/4, getHeight()/4, circSize, circSize, 5);
-    lastPitch = pitch;
-}
+
 
 //Buffer 
 

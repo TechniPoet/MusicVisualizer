@@ -32,7 +32,6 @@ public:
 
     void shutdown() override
     {
-
         mainWindow = nullptr; // (deletes our window)
     }
 

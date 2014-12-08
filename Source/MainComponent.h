@@ -19,6 +19,7 @@ public:
         : DocumentWindow (name, Colours::lightgrey, DocumentWindow::allButtons)
     {
 		setContentOwned(new VisualMaker(audioFile), true);
+        setTitleBarButtonsRequired(0, true);
 		//centreWithSize (getWidth(), getHeight());
         centreWithSize(400, 400);
         setVisible (true);
@@ -47,14 +48,15 @@ public:
 
     void paint (Graphics&);
     void resized();
-	
+	bool validFile();
 
 private:
     //==============================================================================
 	void buttonClicked (Button* button);
 	// called by the OS when the window's close button is pressed.
 	void closeButtonPressed();
-	ScopedPointer<BasicWindow> vWindow;
+	//ScopedPointer<BasicWindow> vWindow;
+    BasicWindow* vWindow;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };
 

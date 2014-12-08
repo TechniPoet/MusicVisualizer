@@ -8,6 +8,7 @@
   ==============================================================================
 */
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "Shapes.cpp"
 
 
 //==============================================================================
@@ -93,11 +94,14 @@ private:
     double lastPitch;
 	double pitch;
 	double sampleRate;
+    double height;
+    double width;
+    float red{50}, blue{50}, green{50};
     drow::PitchDetector pitchFinder;
 	CriticalSection detectorLock;
+    Shapes shape;
     
     
-    double circSize = double(50);
     void timerCallback() override
     {
         repaint();
